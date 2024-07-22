@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Takımlar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        /* Genel stil ayarları */
+        body {
+            background-color: #00085f;
+            color: #ffffff;
+            /* Metin rengi */
+            font-family: Arial, sans-serif;
+        }
+
+        .team-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #000000;
+            /* Koyu arka plan */
+        }
+
+        .team-table th,
+        .team-table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ff0000;
+            /* Kırmızı sınır */
+        }
+
+        .team-table th {
+            background-color: #ff0000;
+            /* Kırmızı başlık arka planı */
+            color: #000000;
+            /* Siyah başlık metni */
+            font-size: 18px;
+        }
+
+        .team-table td {
+            background-color: #1e1e1e;
+            /* Koyu gri arka plan */
+            color: #000000;
+            /* Siyah metin */
+        }
+
+        .team-table img {
+            width: 120px;
+            /* Logolar için genişlik */
+            height: auto;
+            /* Orantılı yüksekliği koru */
+        }
+
+        .team-car-img {
+            width: 300px;
+            /* Araç resimleri için genişlik */
+            height: 200px;
+            /* Araç resimleri için yükseklik */
+            object-fit: contain;
+            /* Resmi kesmeden sığdır */
+        }
+
+        .team-table tr:hover {
+            background-color: #333333;
+            /* Satır üzerine gelindiğinde arka plan rengi */
+        }
+
+        /* Takım Detayları Stili */
+        .team-details {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #000000;
+            /* Siyah metin */
+            border: 1px solid #ff0000;
+            display: flex;
+            /* Flexbox ile düzenleme */
+            align-items: center;
+            /* Dikey ortalama */
+        }
+
+        .team-details div {
+            flex: 1;
+            /* Her iki alanın eşit genişlikte olması */
+        }
+
+        .team-details h2 {
+            color: #ff0000;
+            margin-bottom: 10px;
+        }
+
+        .team-details p {
+            margin: 10px 0;
+        }
+
+        .team-details a {
+            color: #000000;
+            /* Siyah metin */
+        }
+
+        .team-details a:hover {
+            text-decoration: underline;
+        }
+
+        .team-logo,
+        .team-car {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            /* Yazılardan boşluk bırakmak için margin ekle */
+        }
+
+        .team-logo img,
+        .team-car img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('menu.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('menu-placeholder').innerHTML = data;
+                });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('menu.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('menu-placeholder').innerHTML = data;
+
+                    // Menü açma/kapama işlevi
+                    const sidebar = document.getElementById('sidebar');
+                    const toggleButton = document.getElementById('sidebar-toggle');
+                    toggleButton.addEventListener('click', function () {
+                        sidebar.classList.toggle('open');
+                        toggleButton.classList.toggle('open');
+                    });
+
+                    // Sidebar açıkken herhangi bir boş alana tıklanırsa sidebar'ı kapat
+                    document.addEventListener('click', function (event) {
+                        if (!sidebar.contains(event.target) && !toggleButton.contains(event.target) && sidebar.classList.contains('open')) {
+                            sidebar.classList.remove('open');
+                            toggleButton.classList.remove('open');
+                        }
+                    });
+                })
+                .catch(error => console.error('Error loading menu:', error));
+        });
+    </script>
+</head>
+
+<body>
+
+    <div id="menu-placeholder"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-toggle" id="sidebar-toggle">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="menu">
+            <ul>
+                <li><a href="history.html"><i class="fa-solid fa-history"></i> Tarihçe</a></li>
+                <li><a href="results.html"><i class="fa-solid fa-flag-checkered"></i> Yarış Sonuçları</a></li>
+                <li><a href="team-details.html"><i class="fa-solid fa-users"></i> Takım Detayları</a></li>
+                <li><a href="driver-stats.html"><i class="fa-solid fa-chart-line"></i> Sürücü İstatistikleri</a></li>
+                <li><a href="f1-rules.html"><i class="fa-solid fa-book"></i> F1 Kuralları</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="menu-placeholder"></div>
+    <div class="team-details">
+        <div>
+            <br><br>
+            <h2>Mercedes-AMG Petronas</h2>
+            <p><strong>Kuruluş Yılı:</strong> 1954</p>
+            <p><strong>Şampiyonluklar:</strong> 8</p>
+            <p><strong>Merkez:</strong> Brackley, Northamptonshire, İngiltere</p>
+            <p><strong>Web Sitesi:</strong> <a href="https://www.mercedesamgf1.com" target="_blank">Mercedes-AMG
+                    Petronas Formula One Team</a></p>
+            <p><strong>Sosyal Medya:</strong>
+                <a href="https://x.com/MercedesAMGF1" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://x.com/MercedesAMGF1" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="https://www.instagram.com/mercedesamgf1/" target="_blank"><i class="fab fa-instagram"></i>
+                    Instagram</a>
+            </p>
+        </div>
+        <div class="team-logo">
+            <img src="https://media.formula1.com/content/dam/fom-website/teams/2024/mercedes-logo.png"
+                alt="Mercedes-AMG Petronas Logo">
+        </div>
+        <div class="team-car">
+            <img src="https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/mercedes.png"
+                alt="Mercedes-AMG Petronas Car" class="team-car-img">
+        </div>
+    </div>
+
+    <div class="team-details">
+        <div>
+            <h2>Scuderia Ferrari</h2>
+            <p><strong>Kuruluş Yılı:</strong> 1929</p>
+            <p><strong>Şampiyonluklar:</strong> 16</p>
+            <p><strong>Merkez:</strong> Maranello, İtalya</p>
+            <p><strong>Web Sitesi:</strong> <a href="https://www.ferrari.com/en-EN/formula1" target="_blank">Scuderia
+                    Ferrari</a></p>
+            <p><strong>Sosyal Medya:</strong>
+                <a href="https://x.com/ScuderiaFerrari" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://www.facebook.com/ScuderiaFerrari/" target="_blank"><i class="fab fa-facebook"></i>
+                    Facebook</a>
+                <a href="https://www.instagram.com/scuderiaferrari/" target="_blank"><i class="fab fa-instagram"></i>
+                    Instagram</a>
+            </p>
+        </div>
+        <div class="team-logo">
+            <img src="https://media.formula1.com/content/dam/fom-website/teams/2024/ferrari-logo.png"
+                alt="Scuderia Ferrari-Logo">
+        </div>
+        <div class="team-car">
+            <img src="https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/ferrari.png"
+                alt="Scuderia Ferrari Car" class="team-car-img">
+        </div>
+    </div>
+    <div class="team-details">
+        <div>
+            <h2>Red Bull Racing</h2>
+            <p><strong>Kuruluş Yılı:</strong> 2005</p>
+            <p><strong>Şampiyonluklar:</strong> 4</p>
+            <p><strong>Merkez:</strong> Milton Keynes, Buckinghamshire, İngiltere</p>
+            <p><strong>Web Sitesi:</strong> <a href="https://www.redbullracing.com/int-en" target="_blank">Red Bull
+                    Racing</a></p>
+            <p><strong>Sosyal Medya:</strong>
+                <a href="https://x.com/redbullracing" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://www.facebook.com/redbullracing/" target="_blank"><i class="fab fa-facebook"></i>
+                    Facebook</a>
+                <a href="https://www.instagram.com/redbullracing/" target="_blank"><i class="fab fa-instagram"></i>
+                    Instagram</a>
+            </p>
+        </div>
+        <div class="team-logo">
+            <img src="https://media.formula1.com/content/dam/fom-website/teams/2024/red-bull-racing-logo.png"
+                alt="Red Bull Racing-Logo">
+        </div>
+        <div class="team-car">
+            <img src="https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/red-bull-racing.png"
+                alt="Red Bull Racing Car" class="team-car-img">
+        </div>
+    </div>
+    <div class="team-details">
+        <div>
+            <h2>McLaren F1 Team</h2>
+            <p><strong>Kuruluş Yılı:</strong> 1963</p>
+            <p><strong>Şampiyonluklar:</strong> 20</p>
+            <p><strong>Merkez:</strong> Woking, Surrey, İngiltere</p>
+            <p><strong>Web Sitesi:</strong> <a href="https://www.mclaren.com/racing/" target="_blank">McLaren F1
+                    Team</a></p>
+            <p><strong>Sosyal Medya:</strong>
+                <a href="https://www.mclaren.com/racing/" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://www.facebook.com/McLarenF1/" target="_blank"><i class="fab fa-facebook"></i>
+                    Facebook</a>
+                <a href="https://www.instagram.com/mclaren/" target="_blank"><i class="fab fa-instagram"></i>
+                    Instagram</a>
+            </p>
+        </div>
+        <div class="team-logo">
+            <img src="https://media.formula1.com/content/dam/fom-website/teams/2024/mclaren-logo.png"
+                alt="McLaren F1 Team-Logo">
+        </div>
+        <div class="team-car">
+            <img src="https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/mclaren.png"
+                alt="McLaren F1 Team Car" class="team-car-img">
+        </div>
+    </div>
+    <div class="team-details">
+        <div>
+            <h2>Alpine F1 Team</h2>
+            <p><strong>Kuruluş Yılı:</strong> 2021(Öncesinde Renault)</p>
+            <p><strong>Şampiyonluklar:</strong> 2(Renault Adı Altında)</p>
+            <p><strong>Merkez:</strong> Enstone, Oxfordshire, İngiltere</p>
+            <p><strong>Web Sitesi:</strong> <a href="https://www.alpine-cars.co.uk/formula-1/f1-team.html"
+                    target="_blank">Alpine F1 Team</a></p>
+            <p><strong>Sosyal Medya:</strong>
+                <a href="https://x.com/AlpineF1Team" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://www.facebook.com/AlpineF1Team/" target="_blank"><i class="fab fa-facebook"></i>
+                    Facebook</a>
+                <a href="https://www.instagram.com/alpinef1team/" target="_blank"><i class="fab fa-instagram"></i>
+                    Instagram</a>
+            </p>
+        </div>
+        <div class="team-logo">
+            <img src="https://media.formula1.com/content/dam/fom-website/teams/2024/alpine-logo.png"
+                alt="Alpine F1 Team-Logo">
+        </div>
+        <div class="team-car">
+            <img src="https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/alpine.png"
+                alt="Alpine F1 Team Car" class="team-car-img">
+        </div>
+    </div>
+    <div class="team-details">
+        <div>
+            <h2>Aston Martin Aramco Cognizant Formula One Team</h2>
+            <p><strong>Kuruluş Yılı:</strong> 2021(Öncesinde Racing Point)</p>
+            <p><strong>Şampiyonluklar:</strong> 0</p>
+            <p><strong>Merkez:</strong> Silverstone, Northamptonshire, İngiltere</p>
+            <p><strong>Web Sitesi:</strong> <a href="https://www.astonmartinf1.com/en-GB/" target="_blank">Aston
+                    Martin Aramco Cognizant Formula One Team</a></p>
+            <p><strong>Sosyal Medya:</strong>
+                <a href="Aston Martin Aramco Cognizant Formula One Team" target="_blank"><i class="fab fa-twitter"></i>
+                    Twitter</a>
+                <a href="https://www.facebook.com/AstonMartinF1/" target="_blank"><i class="fab fa-facebook"></i>
+                    Facebook</a>
+                <a href="https://www.facebook.com/AstonMartinF1/" target="_blank"><i class="fab fa-instagram"></i>
+                    Instagram</a>
+            </p>
+        </div>
+        <div class="team-logo">
+            <img src="https://media.formula1.com/content/dam/fom-website/teams/2024/aston-martin-logo.png"
+                alt="Aston Martin Aramco Cognizant Formula One Team-Logo">
+        </div>
+        <div class="team-car">
+            <img src="https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/aston-martin.png"
+                alt="Aston Martin Aramco Cognizant Formula One Team Car" class="team-car-img">
+        </div>
+    </div>
+    <div class="team-details">
+        <div>
+            <h2>Williams Racing</h2>
+            <p><strong>Kuruluş Yılı:</strong> 1977</p>
+            <p><strong>Şampiyonluklar:</strong> 9</p>
+            <p><strong>Merkez:</strong> Oxfordshire, İngiltere</p>
+            <p><strong>Web Sitesi:</strong> <a href="https://www.williamsf1.com" target="_blank">Williams Racing</a>
+            </p>
+            <p><strong>Sosyal Medya:</strong>
+                <a href="https://x.com/WilliamsRacing" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://www.facebook.com/WilliamsRacing/" target="_blank"><i class="fab fa-facebook"></i>
+                    Facebook</a>
+                <a href="https://www.instagram.com/williamsracing/" target="_blank"><i class="fab fa-instagram"></i>
+                    Instagram</a>
+            </p>
+        </div>
+        <div class="team-logo">
+            <img src="https://media.formula1.com/content/dam/fom-website/teams/2024/williams-logo.png"
+                alt="Williams Racing-Logo">
+        </div>
+        <div class="team-car">
+            <img src="https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/williams.png"
+                alt="Williams Racing Car" class="team-car-img">
+        </div>
+    </div>
+    <div class="team-details">
+        <div>
+            <h2>RB</h2>
+            <p><strong>Kuruluş Yılı:</strong> 2006(Öncesinde ToroRosso, AlphaTauri)</p>
+            <p><strong>Şampiyonluklar:</strong> 1</p>
+            <p><strong>Merkez:</strong> Faenza, İtalya</p>
+            <p><strong>Web Sitesi:</strong> <a href="https://alphatauri.com/en-int/" target="_blank">RB</a></p>
+            <p><strong>Sosyal Medya:</strong>
+                <a href="https://x.com/visacashapprb?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+                    target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://www.facebook.com/AlphaTauriF1/" target="_blank"><i class="fab fa-facebook"></i>
+                    Facebook</a>
+                <a href="https://www.instagram.com/visacashapprb/" target="_blank"><i class="fab fa-instagram"></i>
+                    Instagram</a>
+            </p>
+        </div>
+        <div class="team-logo">
+            <img src="https://media.formula1.com/content/dam/fom-website/teams/2024/rb-logo.png" alt="RB-Logo">
+        </div>
+        <div class="team-car">
+            <img src="https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/rb.png"
+                alt="RB Car" class="team-car-img">
+        </div>
+    </div>
+    <div class="team-details">
+        <div>
+            <h2>Haas F1 Team</h2>
+            <p><strong>Kuruluş Yılı:</strong> 2016</p>
+            <p><strong>Şampiyonluklar:</strong> 0</p>
+            <p><strong>Merkez:</strong> Kannapolis, North Carolina, ABD</p>
+            <p><strong>Web Sitesi:</strong> <a href="https://www.haasf1team.com" target="_blank">Haas F1 Team</a>
+            </p>
+            <p><strong>Sosyal Medya:</strong>
+                <a href="https://x.com/HaasF1Team" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://www.facebook.com/haasf1team/" target="_blank"><i class="fab fa-facebook"></i>
+                    Facebook</a>
+                <a href="https://www.instagram.com/haasf1team/" target="_blank"><i class="fab fa-instagram"></i>
+                    Instagram</a>
+            </p>
+        </div>
+        <div class="team-logo">
+            <img src="https://media.formula1.com/content/dam/fom-website/teams/2024/haas-logo.png"
+                alt="Haas F1 Team-Logo">
+        </div>
+        <div class="team-car">
+            <img src="https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/haas.png"
+                alt="Haas F1 Team Car" class="team-car-img">
+        </div>
+    </div>
+    <div class="team-details">
+        <div>
+            <h2>Kick Sauber F1 Team</h2>
+            <p><strong>Kuruluş Yılı:</strong> 1993</p>
+            <p><strong>Şampiyonluklar:</strong> 0</p>
+            <p><strong>Merkez:</strong> Hinwil, İsviçre</p>
+            <p><strong>Web Sitesi:</strong> <a href="https://www.sauber-group.com" target="_blank">Kick Sauber F1
+                    Team</a></p>
+            <p><strong>Sosyal Medya:</strong>
+                <a href="https://x.com/stakef1team_ks?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+                    target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://www.facebook.com/groups/350197450030770/?_rdr" target="_blank"><i
+                        class="fab fa-facebook"></i> Facebook</a>
+                <a href="https://www.instagram.com/stakef1team/?hl=en" target="_blank"><i class="fab fa-instagram"></i>
+                    Instagram</a>
+            </p>
+        </div>
+        <div class="team-logo">
+            <img src="https://media.formula1.com/content/dam/fom-website/teams/2024/kick-sauber-logo.png"
+                alt="Kick Sauber F1 Team-Logo">
+        </div>
+        <div class="team-car">
+            <img src="https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/kick-sauber.png"
+                alt="Kick Sauber F1 Team Car" class="team-car-img">
+        </div>
+    </div>
+
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024 Formula 1 Yarış Takvimi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .news-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 40px 0;
+            font-size: 36px;
+        }
+
+        .race {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            position: relative;
+            /* Eklenmiş */
+        }
+
+        .race img {
+            width: 450px;
+            height: auto;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+
+        .race-info {
+            flex: 1;
+        }
+
+        .race-info h2 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .race-info p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .video a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+
+        .video a:hover {
+            text-decoration: underline;
+        }
+
+        .results {
+            margin-top: 10px;
+        }
+
+        .results h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .results p {
+            margin: 3px 0;
+            font-size: 16px;
+        }
+
+        /* Üst Menü Stili */
+        .top-nav {
+            background-color: #000000;
+            color: #fff;
+            padding: 25px 40px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+
+        .top-nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-nav .logo {
+            margin-right: auto;
+        }
+
+        .top-nav .logo img {
+            height: 30px;
+            width: auto;
+        }
+
+        .top-nav .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .top-nav .nav-links li {
+            margin: 0;
+        }
+
+        .top-nav .nav-links a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 300ms;
+        }
+
+        .top-nav .nav-links a:hover {
+            background-color: #ff0000;
+        }
+
+        .sidebar {
+            width: 300px;
+            height: 100vh;
+            padding: 25px 10px;
+            background-color: #0f172a;
+            position: fixed;
+            right: -300px;
+            /* Sidebar'ı başlangıçta gizle */
+            transition: right 300ms ease-in-out;
+            /* Açılma ve kapanma geçişi */
+            z-index: 1000;
+            /* Yan menüyü üst menünün üstünde tut */
+        }
+
+        .sidebar.open {
+            right: 0;
+            /* Sidebar açıkken */
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            top: 15px;
+            left: -45px; /* Toggle butonunu sağa kaydır */
+            background-color: #2c3344;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 300ms; /* Geçiş süresi */
+        }
+
+
+        .sidebar-toggle i {
+            transition: transform 300ms;
+            /* İkon dönüşüm geçişi */
+        }
+
+        .sidebar-toggle.open i {
+            transform: rotate(90deg);
+            /* İkon dönüşüm animasyonu */
+        }
+
+        .sidebar-toggle:hover {
+            background-color: #1e293b;
+        }
+
+        .menu {
+            margin-top: 55px;
+        }
+
+        .menu ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .menu ul li {
+            margin-top: 10px;
+        }
+
+        .menu ul li a {
+            display: block;
+            text-decoration: none;
+            color: #94a3b8;
+            /* Varsayılan metin rengi */
+            font-size: 16px;
+            padding: 15px;
+            border-radius: 5px;
+            transition: background-color 300ms, color 300ms;
+            /* Geçiş süresi */
+        }
+
+        /* İkon stil */
+        .menu ul li a i {
+            padding-right: 15px;
+            font-size: 20px;
+        }
+
+        /* Üzerine gelindiğinde menü öğesi */
+        .menu ul li a:hover {
+            color: #ff0000;
+            background-color: #1e293b;
+        }
+
+        /* Varsayılan menü öğesi renkleri */
+        .menu ul li a {
+            color: #94a3b8;
+            /* Varsayılan renk */
+            background-color: transparent;
+            /* Varsayılan arka plan rengi */
+        }
+    </style>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('menu.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('menu-placeholder').innerHTML = data;
+
+            const sidebar = document.getElementById('sidebar');
+            const toggleButton = document.getElementById('sidebar-toggle');
+            toggleButton.addEventListener('click', function () {
+                sidebar.classList.toggle('open');
+                toggleButton.classList.toggle('open');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!sidebar.contains(event.target) && !toggleButton.contains(event.target) && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                    toggleButton.classList.remove('open');
+                }
+            });
+        })
+        .catch(error => console.error('Error loading menu:', error));
+});
+
+    </script>
+
+</head>
+
+<body>
+
+    <div id="menu-placeholder"></div>
+
+    <!-- Yan Menü -->
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-toggle" id="sidebar-toggle">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="menu">
+            <ul>
+                <li><a href="history.html"><i class="fa-solid fa-history"></i> Tarihçe</a></li>
+                <li><a href="results.html"><i class="fa-solid fa-flag-checkered"></i> Yarış Sonuçları</a></li>
+                <li><a href="team-details.html"><i class="fa-solid fa-users"></i> Takım Detayları</a></li>
+                <li><a href="driver-stats.html"><i class="fa-solid fa-chart-line"></i> Sürücü İstatistikleri</a></li>
+                <li><a href="f1-rules.html"><i class="fa-solid fa-book"></i> F1 Kuralları</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="menu-placeholder"></div>
+    <br><br><br>
+    <!-- Bahreyn Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010137.png">
+        <img
+            src="https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Bahrain_Circuit.png">
+        <div class="race-info">
+            <h2>BAHRAIN GP</h2>
+            <br>
+            <p>Tarih: 2 Mart 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.formula1.com/en/video/race-highlights-2024-bahrain-grand-prix.1792435980486921850"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. Max Verstappen</p>
+                <p>2. Sergio Perez</p>
+                <p>3. Carlos Sainz</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Suudi Arabistan Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010316.png">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Saudi_Arabia_Circuit">
+        <div class="race-info">
+            <h2>SAUDI ARABIAN GP</h2>
+            <br>
+            <p>Tarih: 9 Mart 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.formula1.com/en/video/race-highlights-2024-saudi-arabian-grand-prix.1793076237513346674"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. Max Verstappen</p>
+                <p>2. Sergio Perez</p>
+                <p>3. Charles Leclerc</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avustralya Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010327.png">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto,c_limit,w_1440,q_auto/f_auto/q_auto/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Australia_Circuit">
+        <div class="race-info">
+            <h2>AUSTRALIA GP</h2>
+            <br>
+            <p>Tarih: 24 Mart 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.formula1.com/en/video/race-highlights-2024-australian-grand-prix.1794387578890217636"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. Carlos Sainz</p>
+                <p>2. Charles Leclerc</p>
+                <p>3. Lando Norris</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Azerbaycan Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010344.png">
+        <img
+            src="https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Japan_Circuit.png">
+        <div class="race-info">
+            <h2>JAPANESE GP</h2>
+            <br>
+            <p>Tarih: 7 Nisan 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.formula1.com/en/video/race-highlights-2024-japanese-grand-prix.1795660571915170287"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. Max Verstappen</p>
+                <p>2. Sergio Perez</p>
+                <p>3. Carlos Sainz</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Miami Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010353.png">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto,c_limit,w_1440,q_auto/f_auto/q_auto/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/China_Circuit">
+        <div class="race-info">
+            <h2>CHINESE GP</h2>
+            <br>
+            <p>Tarih: 21 Nisan 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.formula1.com/en/video/race-highlights-2024-chinese-grand-prix.1796937772568544338"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. Max Verstappen</p>
+                <p>2. Lando Norris</p>
+                <p>3. Sergio Perez</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- İspanya Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010407.png">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Miami_Circuit">
+        <div class="race-info">
+            <h2>MIAMI GP</h2>
+            <br>
+            <p>Tarih: 5 Mayıs 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.formula1.com/en/video/race-highlights-2024-miami-grand-prix.1798254901950547038"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. Lando Norris</p>
+                <p>2. Max Verstappen</p>
+                <p>3. Charles Leclerc</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monaco Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010418.png">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Emilia_Romagna_Circuit">
+        <div class="race-info">
+            <h2>EMILIA ROMAGNA GP</h2>
+            <br>
+            <p>Tarih: 19 Mayıs 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.formula1.com/en/video/race-highlights-2024-emilia-romagna-grand-prix.1799495387235353691"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. Max Verstappen</p>
+                <p>2. Lando Norris</p>
+                <p>3. Charles Leclerc</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kanada Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010432.png">
+        <img
+            src="https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Monoco_Circuit.png">
+        <div class="race-info">
+            <h2>MONACO GP</h2>
+            <br>
+            <p>Tarih: 26 Mayıs 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.formula1.com/en/video/race-highlights-2024-monaco-grand-prix.1800132618250746394?utm_source=google&utm_medium=organic&utm_campaign=google-onebox-highlights&utm_content=2024-monaco-race-highlights"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. Charles Leclerc</p>
+                <p>2. Oscar Piastri</p>
+                <p>3. Carlos Sainz</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Birleşik Krallık Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010442.png">
+        <img
+            src="https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Canada_Circuit.png">
+        <div class="race-info">
+            <h2>CANADIAN GP</h2>
+            <br>
+            <p>Tarih: 9 Haziran 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.formula1.com/en/video/race-highlights-2024-canadian-grand-prix.1801422765084896058?utm_source=google&utm_medium=organic&utm_campaign=google-onebox-highlights&utm_content=2024-canada-race-highlights"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. Max Verstappen</p>
+                <p>2. Lando Norris</p>
+                <p>3. George Russell</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avusturya Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010449.png">
+        <img
+            src="https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Spain_Circuit.png">
+        <div class="race-info">
+            <h2>SPANISH GP</h2>
+            <br>
+            <p>Tarih: 23 Haziran 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.formula1.com/en/video/race-highlights-2024-spanish-grand-prix.1802666577782303610?utm_source=google&utm_medium=organic&utm_campaign=google-onebox-highlights&utm_content=2024-spain-race-highlights"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. Max Verstappen</p>
+                <p>2. Lando Norris</p>
+                <p>3. Lewis Hamilton</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Macaristan Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010457.png">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto,c_limit,w_1440,q_auto/f_auto/q_auto/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Austria_Circuit">
+        <div class="race-info">
+            <h2>AUSTRIAN GP</h2>
+            <br>
+            <p>Tarih: 30 Haziran 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.google.com/search?q=f1&oq=f1&gs_lcrp=EgZjaHJvbWUqDggAEEUYJxg7GIAEGIoFMg4IABBFGCcYOxiABBiKBTIOCAEQRRgnGDsYgAQYigUyBggCEEUYOzIGCAMQRRg8MgYIBBBFGDwyBggFEEUYPDIGCAYQRRg8MgYIBxBFGDzSAQc2NjBqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. George Russell</p>
+                <p>2. Oscar Piastri</p>
+                <p>3. Carlos Sainz</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Belçika Grand Prix -->
+    <div class="race">
+        <img src="resimler/Ekran görüntüsü 2024-07-16 010507.png">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto,c_limit,w_1440,q_auto/f_auto/q_auto/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Great_Britain_Circuit">
+        <div class="race-info">
+            <h2>BRITISH GP</h2>
+            <br>
+            <p>Tarih: 7 Temmuz 2024</p>
+            <br>
+            <div class="video">
+                <a href="https://www.formula1.com/en/video/race-highlights-2024-british-grand-prix.1803937851447855766?utm_source=google&utm_medium=organic&utm_campaign=google-onebox-highlights&utm_content=2024-gb-race-highlights"
+                    target="_blank">Yarış Videosu</a>
+            </div>
+            <div class="results">
+                <br>
+                <h3>Sonuçlar:</h3>
+                <p>1. Lewis Hamilton</p>
+                <p>2. Max Verstappen</p>
+                <p>3. Lando Norris</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hollanda Grand Prix -->
+    <div class="race">
+        <img
+            src="https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Hungary_Circuit.png">
+        <div class="race-info">
+            <h2>HUNGARIAN GP</h2>
+            <br>
+            <p>Tarih: 21 Temmuz 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+
+    <!-- İtalya Grand Prix -->
+    <div class="race">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto,c_limit,w_1440,q_auto/f_auto/q_auto/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Belgium_Circuit">
+        <div class="race-info">
+            <h2>BELGIAN GP</h2>
+            <br>
+            <p>Tarih: 28 Temmuz 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+
+    <!-- Singapur Grand Prix -->
+    <div class="race">
+        <img
+            src="https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Netherlands_Circuit.png">
+        <div class="race-info">
+            <h2>DUTCH GP</h2>
+            <br>
+            <p>Tarih: 25 Ağustos 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+
+    <!-- Japonya Grand Prix -->
+    <div class="race">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto,c_limit,w_1440,q_auto/f_auto/q_auto/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Italy_Circuit">
+        <div class="race-info">
+            <h2>ITALIAN GP</h2>
+            <br>
+            <p>Tarih: 1 Eylül 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+
+    <!-- ABD Grand Prix -->
+    <div class="race">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto,c_limit,w_1440,q_auto/f_auto/q_auto/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Baku_Circuit">
+        <div class="race-info">
+            <h2>AZERBAIJAN GP</h2>
+            <br>
+            <p>Tarih: 15 Eylül 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+
+    <!-- Brezilya Grand Prix -->
+    <div class="race">
+        <img
+            src="https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Singapore_Circuit.png">
+        <div class="race-info">
+            <h2>SINGAPORE GP</h2>
+            <br>
+            <p>Tarih: 22 Eylül 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+
+    <!-- Abu Dhabi Grand Prix -->
+    <div class="race">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto/q_auto/v1677244984/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/USA_Circuit.png">
+        <div class="race-info">
+            <h2>UNITED STATES GP</h2>
+            <br>
+            <p>Tarih: 20 Ekim 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+
+    <div class="race">
+        <img
+            src="https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Mexico_Circuit.png">
+        <div class="race-info">
+            <h2>MEXICAN GP</h2>
+            <br>
+            <p>Tarih: 27 Ekim 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+
+    <div class="race">
+        <img
+            src="https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Brazil_Circuit.png">
+        <div class="race-info">
+            <h2>BRAZILIAN GP</h2>
+            <br>
+            <p>Tarih: 3 Kasım 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+
+
+    <div class="race">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto/q_auto/v1677249930/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Las_Vegas_Circuit.png">
+        <div class="race-info">
+            <h2>LAS VEGAS GP</h2>
+            <br>
+            <p>Tarih: 24 Kasım 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+
+
+    <div class="race">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto/q_auto/v1677244985/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Qatar_Circuit.png">
+        <div class="race-info">
+            <h2>QATAR GP</h2>
+            <br>
+            <p>Tarih: 1 Aralık 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+
+
+    <div class="race">
+        <img
+            src="https://media.formula1.com/image/upload/f_auto,c_limit,w_1440,q_auto/f_auto/q_auto/content/dam/fom-website/2018-redesign-assets/Circuit%20maps%2016x9/Abu_Dhabi_Circuit">
+        <div class="race-info">
+            <h2>ABU DHABI GP</h2>
+            <br>
+            <p>Tarih: 8 Aralık 2024</p>
+            <br>
+            <h2>Daha Yarış Yapılmadı</h2>
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Teknik Analiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        /* Üst Menü Stili */
+        .top-nav {
+            background-color: #000000;
+            color: #fff;
+            padding: 25px 40px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+
+        .top-nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-nav .logo {
+            margin-right: auto;
+        }
+
+        .top-nav .logo img {
+            height: 30px;
+            width: auto;
+        }
+
+        .top-nav .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .top-nav .nav-links li {
+            margin: 0;
+        }
+
+        .top-nav .nav-links a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 300ms;
+        }
+
+        .top-nav .nav-links a:hover {
+            background-color: #ff0000;
+        }
+
+        .sidebar {
+            width: 300px;
+            height: 100vh;
+            padding: 25px 10px;
+            background-color: #0f172a;
+            position: fixed;
+            right: -300px; /* Sidebar'ı başlangıçta gizle */
+            transition: right 300ms ease-in-out; /* Açılma ve kapanma geçişi */
+            z-index: 1000; /* Yan menüyü üst menünün üstünde tut */
+        }
+
+        .sidebar.open {
+            right: 0; /* Sidebar açıkken */
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            top: 15px;
+            left: -45px; /* Toggle butonunu sağa kaydır */
+            background-color: #2c3344;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 300ms; /* Geçiş süresi */
+        }
+
+        .sidebar-toggle i {
+            transition: transform 300ms; /* İkon dönüşüm geçişi */
+        }
+
+        .sidebar-toggle.open i {
+            transform: rotate(90deg); /* İkon dönüşüm animasyonu */
+        }
+
+        .sidebar-toggle:hover {
+            background-color: #1e293b;
+        }
+
+        .menu {
+            margin-top: 55px;
+        }
+
+        .menu ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .menu ul li {
+            margin-top: 10px;
+        }
+
+        .menu ul li a {
+            display: block;
+            text-decoration: none;
+            color: #94a3b8; /* Varsayılan metin rengi */
+            font-size: 16px;
+            padding: 15px;
+            border-radius: 5px;
+            transition: background-color 300ms, color 300ms; /* Geçiş süresi */
+        }
+
+        /* İkon stil */
+        .menu ul li a i {
+            padding-right: 15px;
+            font-size: 20px;
+        }
+
+        /* Üzerine gelindiğinde menü öğesi */
+        .menu ul li a:hover {
+            color: #ff0000;
+            background-color: #1e293b;
+        }
+
+        /* Varsayılan menü öğesi renkleri */
+        .menu ul li a {
+            color: #94a3b8; /* Varsayılan renk */
+            background-color: transparent; /* Varsayılan arka plan rengi */
+        }
+
+        main {
+            margin-top: 60px; /* Header yüksekliği kadar boşluk */
+            margin-left: 260px; /* Yan menü genişliği kadar boşluk */
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('menu.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('menu-placeholder').innerHTML = data;
+
+                // Menü açma/kapama işlevi
+                const sidebar = document.getElementById('sidebar');
+                const toggleButton = document.getElementById('sidebar-toggle');
+                toggleButton.addEventListener('click', function () {
+                    sidebar.classList.toggle('open');
+                    toggleButton.classList.toggle('open');
+                });
+
+                // Sidebar açıkken herhangi bir boş alana tıklanırsa sidebar'ı kapat
+                document.addEventListener('click', function (event) {
+                    if (!sidebar.contains(event.target) && !toggleButton.contains(event.target) && sidebar.classList.contains('open')) {
+                        sidebar.classList.remove('open');
+                        toggleButton.classList.remove('open');
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading menu:', error));
+    });
+</script>
+
+</head>
+<body>
+    <!-- Üst Menü -->
+    <div id="menu-placeholder"></div>
+
+    <!-- Yan Menü -->
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-toggle" id="sidebar-toggle">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="menu">
+            <ul>
+                <li><a href="history.html"><i class="fa-solid fa-history"></i> Tarihçe</a></li>
+                <li><a href="results.html"><i class="fa-solid fa-flag-checkered"></i> Yarış Sonuçları</a></li>
+                <li><a href="team-details.html"><i class="fa-solid fa-users"></i> Takım Detayları</a></li>
+                <li><a href="driver-stats.html"><i class="fa-solid fa-chart-line"></i> Sürücü İstatistikleri</a></li>
+                <li><a href="f1-rules.html"><i class="fa-solid fa-book"></i> F1 Kuralları</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        <section id="arac-teknik">
+            <h2>Araç Teknik Analizi</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Özellik</th>
+                        <th>Açıklama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Aerodinamic</td>
+                        <td>Buraya Aerodinamic özellikleri ve teknik detayları ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>Motor</td>
+                        <td>Buraya motor özellikleri ve teknik detayları ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>Şasi</td>
+                        <td>Buraya şasi özellikleri ve teknik detayları ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>Süspansiyon</td>
+                        <td>Buraya süspansiyon özellikleri ve teknik detayları ekleyin.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="performans">
+            <h2>Performans Analizi</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kriter</th>
+                        <th>Değer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>En İyi Çevre Süresi</td>
+                        <td>Buraya en iyi çevre süresi verilerini ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>Ortalama Hız</td>
+                        <td>Buraya ortalama hız verilerini ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>Yarış Sırası</td>
+                        <td>Buraya yarış sırası verilerini ekleyin.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="yaris-stratejileri">
+            <h2>Yarış Stratejileri</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Strateji</th>
+                        <th>Açıklama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Yakıt Yönetimi</td>
+                        <td>Buraya yakıt yönetimi stratejilerini ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>Lastik Yönetimi</td>
+                        <td>Buraya lastik yönetimi stratejilerini ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>Yarış Taktiği</td>
+                        <td>Buraya yarış taktiklerini ekleyin.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="veri-analizi">
+            <h2>Veri Analizi ve Yazılım Araçları</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Araç</th>
+                        <th>Açıklama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Telemetri Araçları</td>
+                        <td>Buraya telemetri araçlarının açıklamalarını ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>Veri Analiz Yazılımı</td>
+                        <td>Buraya veri analiz yazılımlarının açıklamalarını ekleyin.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="teknolojik-gelismeler">
+            <h2>Teknolojik Gelişmeler</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Teknoloji</th>
+                        <th>Açıklama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Yeni Motor Teknolojileri</td>
+                        <td>Buraya yeni motor teknolojileri hakkında bilgiler ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>İnovatif Süspansiyon Sistemleri</td>
+                        <td>Buraya inovatif süspansiyon sistemleri hakkında bilgiler ekleyin.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="tarihsel-performans">
+            <h2>Tarihsel Performans Analizi</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Yıl</th>
+                        <th>Performans</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2023</td>
+                        <td>Buraya 2023 yılı performans verilerini ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>2022</td>
+                        <td>Buraya 2022 yılı performans verilerini ekleyin.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="takim-surucu">
+            <h2>Takım ve Sürücü İncelemeleri</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>İnceleme Alanı</th>
+                        <th>Açıklama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Takım Performansı</td>
+                        <td>Buraya takım performansı hakkında bilgiler ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>Sürücü Performansı</td>
+                        <td>Buraya sürücü performansı hakkında bilgiler ekleyin.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="rakip-analizi">
+            <h2>Rakip Analizi</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rakip</th>
+                        <th>Güçlü Yönler</th>
+                        <th>Zayıf Yönler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rakip 1</td>
+                        <td>Buraya Rakip 1'in güçlü yönlerini ekleyin.</td>
+                        <td>Buraya Rakip 1'in zayıf yönlerini ekleyin.</td>
+                    </tr>
+                    <tr>
+                        <td>Rakip 2</td>
+                        <td>Buraya Rakip 2'nin güçlü yönlerini ekleyin.</td>
+                        <td>Buraya Rakip 2'nin zayıf yönlerini ekleyin.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Ana Sayfa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .news-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+            /* Haberler arasındaki boşluğu ayarlamak için */
+            flex-wrap: wrap;
+            /* İçerik taşmasını önlemek için */
+        }
+
+        .news-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            margin: 0 20px;
+            /* Sağ ve soldan boşluk */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .news-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .news-item h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .news-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .news-item a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .large {
+            width: calc(50% - 40px);
+            /* Sağ ve soldan 20px boşluk bırakır */
+            height: 700px;
+            /* Büyük haber yüksekliği */
+        }
+
+        .small-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* 2 sütun */
+            gap: 15px;
+            /* Küçük haberler arasındaki boşluğu azaltır */
+            width: calc(50% - 40px);
+            /* Sağ ve soldan 20px boşluk bırakır */
+        }
+
+        .small {
+            height: 350px;
+            /* Küçük haber yüksekliği */
+            width: 100%;
+            /* Küçük haber genişliği */
+        }
+
+        .small h2 {
+            font-size: 1.2rem;
+            /* Küçük haber başlık yazı boyutu */
+        }
+
+        .small p {
+            font-size: 0.9rem;
+            /* Küçük haber paragraf yazı boyutu */
+        }
+
+        .small img {
+            width: 100%;
+            height: 150px;
+            /* Küçük haber görsel yüksekliği */
+            object-fit: cover;
+            /* Görseli kutuya sığdırma */
+            margin-bottom: 10px;
+            /* Görselin altındaki boşluk */
+        }
+
+        .read-more {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .read-more a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .read-more a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('menu.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('menu-placeholder').innerHTML = data;
+
+                    const sidebar = document.getElementById('sidebar');
+                    const toggleButton = document.getElementById('sidebar-toggle');
+                    toggleButton.addEventListener('click', function () {
+                        sidebar.classList.toggle('open');
+                        toggleButton.classList.toggle('open');
+                    });
+
+                    document.addEventListener('click', function (event) {
+                        if (!sidebar.contains(event.target) && !toggleButton.contains(event.target) && sidebar.classList.contains('open')) {
+                            sidebar.classList.remove('open');
+                            toggleButton.classList.remove('open');
+                        }
+                    });
+                })
+                .catch(error => console.error('Error loading menu:', error));
+        });
+
+    </script>
+</head>
+
+<body>
+    <div id="menu-placeholder"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-toggle" id="sidebar-toggle">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="menu">
+            <ul>
+                <li><a href="history.html"><i class="fa-solid fa-history"></i> Tarihçe</a></li>
+                <li><a href="results.html"><i class="fa-solid fa-flag-checkered"></i> Yarış Sonuçları</a></li>
+                <li><a href="team-details.html"><i class="fa-solid fa-users"></i> Takım Detayları</a></li>
+                <li><a href="driver-stats.html"><i class="fa-solid fa-chart-line"></i> Sürücü İstatistikleri</a></li>
+                <li><a href="f1-rules.html"><i class="fa-solid fa-book"></i> F1 Kuralları</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Menü Yeri -->
+    <div id="menu-placeholder"></div>
+    <main id="main-content">
+        <div id="home" class="page">
+            <br><br><br>
+        </div>
+    </main>
+    <br><br>
+    <div class="news-container">
+        <div class="news-item large">
+            <a href="news-details1.html">
+                <img src="https://cdn-4.motorsport.com/images/amp/6O1kNEW2/s600/adrian-newey-chief-technology-.jpg">
+                <h2>Newey, F1 yarış hafta sonlarında Red Bull ile ne yapıyor?</h2>
+                <p>Ünlü tasarımcı, gelecek yıl ayrılmadan önce RB17 hiper otomobilini tanıtmak için katıldığı Formula 1
+                    hafta sonlarında Red Bull'un yarış stratejisi kararlarına yardımcı oluyor. Detaylar için tıklayın.
+                </p>
+            </a>
+            <div class="read-more">
+                <a href="news-details1.html">Devamını Oku</a>
+            </div>
+        </div>
+        <div class="small-group">
+            <div class="news-item small">
+                <a href="news-details2.html">
+                    <img
+                        src="https://cdn-3.motorsport.com/images/amp/6zQnDxPY/s1200/zak-brown-ceo-mclaren-racing-c.webp">
+                    <h2>Brown: Red Bull'daki kargaşanın f1 takımı üzerinde uzun vadeli etkileri olacak</h2>
+                    <p>Brown, Red Bull'un etkilenmediğini düşünüyor</p>
+                </a>
+                <div class="read-more">
+                    <a href="news-details2.html">Devamını Oku</a>
+                </div>
+            </div>
+            <div class="news-item small">
+                <a href="news-details3.html">
+                    <img
+                        src="https://media.formula1.com/image/upload/f_auto,c_limit,w_960,q_auto/t_16by9Centre/f_auto/q_auto/trackside-images/2024/F1_Grand_Prix_of_Great_Britain___Practice/2160737883">
+                    <h2>Aston Martin, rüzgar tüneli ve Honda'nın gelişi için yapılan hazırlıkları paylaştı</h2>
+                    <p>Aston Martin'den güncelleme haberi</p>
+                </a>
+                <div class="read-more">
+                    <a href="news-details3.html">Devamını Oku</a>
+                </div>
+            </div>
+            <div class="news-item small">
+                <a href="news-details4.html">
+                    <img src="https://cdn-8.motorsport.com/images/amp/0oO38do0/s1100/red-bull-ford-powertrains.webp">
+                    <h2>Red Bull, Ford destekli F1 motor planıyla başarısız olmamalı</h2>
+                    <p>Red Bull, Ford ile Formula 1 motor projesinin başarılı olmasını planlıyor</p>
+                </a>
+                <div class="read-more">
+                    <a href="news-details4.html">Devamını Oku</a>
+                </div>
+            </div>
+            <div class="news-item small">
+                <a href="news-details5.html">
+                    <img src="https://cdn-5.motorsport.com/images/amp/0a9enMy0/s1200/heikki-kovalainen-jbxe.webp">
+                    <h2>Kovalainen "En nüyük zorluğunun" üstesinden nasıl geldi?</h2>
+                    <p>Açık kalp ameliyatından ralli etaplarına</p>
+                </a>
+                <div class="read-more">
+                    <a href="news-details5.html">Devamını Oku</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br><br>
+    </main>
+    <script src="scripts.js"></script>
+</body>
+
+</html>
